@@ -146,39 +146,52 @@
     }
 
     // ---- Dot Pattern Background ----
-    // Rendered on-canvas via CanvasPattern to avoid Safari macOS compositing
-    // issues where canvas elements act as opaque GPU layers, hiding any CSS
-    // background behind them regardless of pixel transparency.
+    // Pre-rendered to an offscreen canvas at native device resolution, then
+    // drawn as a single drawImage per frame. Using an offscreen full-size
+    // canvas instead of createPattern or CSS background because Safari macOS
+    // has issues with both approaches (opaque GPU compositing for CSS,
+    // unreliable createPattern for tiny tiles).
 
-    let dotPattern = null;
+    let dotsCanvas = null;
 
-    function createDotPattern() {
-        const size = 8;       // grid cell size in px (matches CSS background-size)
-        const dotRadius = 0.5;
-        const tile = document.createElement('canvas');
-        tile.width = size;
-        tile.height = size;
-        const tileCtx = tile.getContext('2d');
+    function createDotsBuffer() {
+        const dpr = window.devicePixelRatio || 1;
+        const spacing = 8;
+        const dotRadius = 0.8;
 
-        // Black background
-        tileCtx.fillStyle = '#000';
-        tileCtx.fillRect(0, 0, size, size);
+        dotsCanvas = document.createElement('canvas');
+        dotsCanvas.width = width * dpr;
+        dotsCanvas.height = height * dpr;
+        const dCtx = dotsCanvas.getContext('2d');
+        dCtx.scale(dpr, dpr);
 
-        // Grey dot centered in tile
-        tileCtx.beginPath();
-        tileCtx.arc(size / 2, size / 2, dotRadius, 0, Math.PI * 2);
-        tileCtx.fillStyle = '#555';
-        tileCtx.fill();
+        // Black fill
+        dCtx.fillStyle = '#000';
+        dCtx.fillRect(0, 0, width, height);
 
-        dotPattern = ctx.createPattern(tile, 'repeat');
+        // Draw dot grid
+        dCtx.fillStyle = '#555';
+        for (let x = spacing / 2; x < width; x += spacing) {
+            for (let y = spacing / 2; y < height; y += spacing) {
+                dCtx.beginPath();
+                dCtx.arc(x, y, dotRadius, 0, Math.PI * 2);
+                dCtx.fill();
+            }
+        }
     }
 
     // ---- Canvas Resize ----
 
     function initCanvas() {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
-        createDotPattern();
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = window.innerWidth * dpr;
+        canvas.height = window.innerHeight * dpr;
+        canvas.style.width = window.innerWidth + 'px';
+        canvas.style.height = window.innerHeight + 'px';
+        ctx.scale(dpr, dpr);
+        width = window.innerWidth;
+        height = window.innerHeight;
+        createDotsBuffer();
         initParticles();
     }
 
@@ -187,9 +200,8 @@
     // ---- Animation Loop ----
 
     function animate() {
-        // Draw dot pattern background instead of clearRect
-        ctx.fillStyle = dotPattern;
-        ctx.fillRect(0, 0, width, height);
+        // Draw pre-rendered dot background (clears previous frame)
+        ctx.drawImage(dotsCanvas, 0, 0, width, height);
 
         const connectionDist = width < 768
             ? CONFIG.connectionDistanceMobile
