@@ -1,0 +1,198 @@
+:root {
+    --bg-color: #050505;
+    --text-color: #f9f9f9;
+    --accent-color: #e50914; /* Assuming a sporty/pro red accent, or pink based on icon_pink */
+    --accent-secondary: #e62061; /* Pinkish accent */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #000000;
+    opacity: 1;
+    background-image: radial-gradient(#4f4d4d 0.30000000000000004px, #000000 0.30000000000000004px);
+    background-size: 6px 6px;
+    color: var(--text-color);
+    font-family: 'Outfit', sans-serif;
+    overflow: hidden; /* Hide scrollbars for the fullscreen effect */
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+}
+
+#bg-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: auto; /* Allow canvas to receive mouse events */
+}
+
+.glass-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    padding: 0 5%;
+}
+
+.header-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    animation: fadeInDown 1s ease-out forwards;
+}
+
+.header-icon {
+    height: 13px;
+    width: auto;
+}
+
+.header-text {
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: #fff;
+}
+
+.content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -40%); /* shifted down slightly to account for the header */
+    z-index: 10;
+    text-align: center;
+    width: 90%;
+    max-width: 800px;
+    pointer-events: none; /* Let mouse events pass through to canvas */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.logo-container {
+    margin-bottom: 1rem;
+    animation: fadeInDown 1.5s ease-out forwards;
+    opacity: 0;
+}
+
+.logo {
+    max-width: 280px;
+    height: auto;
+}
+
+.title {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    background: linear-gradient(to right, #ffffff, #a0a0a0);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fadeInUp 1.5s ease-out 0.3s forwards;
+    opacity: 0;
+}
+
+.subtitle {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-weight: 300;
+    color: #a0a0a0;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    animation: fadeInUp 1.5s ease-out 0.6s forwards;
+    opacity: 0;
+}
+
+.notify-section {
+    margin-top: 2rem;
+    animation: fadeIn 2s ease-out 1s forwards;
+    opacity: 0;
+}
+
+.notify-section p {
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: #777;
+    margin-bottom: 0.8rem;
+}
+
+.progress-bar-container {
+    width: 200px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+    border-radius: 2px;
+}
+
+.progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 30%;
+    background: linear-gradient(90deg, transparent, #fff, transparent);
+    animation: loading 2s infinite ease-in-out;
+}
+
+/* Animations */
+@keyframes loading {
+    0% { left: -50%; width: 30%; }
+    50% { left: 40%; width: 50%; }
+    100% { left: 120%; width: 30%; }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@media (max-width: 768px) {
+    .logo {
+        max-width: 200px;
+    }
+}
