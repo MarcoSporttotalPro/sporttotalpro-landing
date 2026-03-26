@@ -56,8 +56,8 @@
 
 body {
     background-color: #000;
-    background-image: radial-gradient(#4f4d4d 0.5px, #000 0.5px);
-    background-size: 6px 6px;
+    background-image: radial-gradient(#555 1px, #000 1px);
+    background-size: 8px 8px;
     color: var(--color-text);
     font-family: var(--font-family);
     overflow: hidden;
