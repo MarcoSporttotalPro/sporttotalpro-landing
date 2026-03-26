@@ -40,12 +40,9 @@
 
 <body>
 
-    <!-- Polka dot background layer.
-         Separate div because Safari macOS composites canvas as an opaque layer,
-         hiding the body background even when canvas pixels are transparent. -->
-    <div class="bg-dots"></div>
-
     <!-- Full-viewport canvas for the interactive particle network animation.
+         Dot pattern background is rendered directly on-canvas (not CSS) to
+         avoid Safari macOS GPU compositing issues.
          Rendered by js/particles.js -- particles react to mouse movement. -->
     <canvas id="bg-canvas"></canvas>
 
