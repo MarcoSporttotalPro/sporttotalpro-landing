@@ -1,5 +1,16 @@
+# ==========================================================================
+# Netlify Configuration -- sporttotalpro.com
+# ==========================================================================
+# Static site, no build command needed.
+# Publish directory: src/ (contains index.html, css/, js/, assets/)
+# ==========================================================================
+
 [build]
-  publish = "."
+  publish = "src"
+
+# --------------------------------------------------------------------------
+# Security & caching headers
+# --------------------------------------------------------------------------
 
 [[headers]]
   for = "/*"
@@ -11,7 +22,19 @@
     X-Robots-Tag = "index, follow"
     Cache-Control = "public, max-age=3600"
 
+# Long-term cache for static assets (images, SVGs)
 [[headers]]
   for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Long-term cache for CSS and JS
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/js/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"

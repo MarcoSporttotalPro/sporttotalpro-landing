@@ -60,17 +60,22 @@ All other records were kept as-is:
 
 ```
 NEXUS/
-  index.html          Main landing page
-  style.css           Styles (CSS variables, animations, responsive)
-  script.js           Particle animation with mouse interaction
-  netlify.toml        Netlify config (headers, publish dir)
-  robots.txt          Search engine crawler rules
-  assets/
-    STPro_icon_bg.png         Favicon / OG image
-    STPro_icon_bg_white.png   White variant
-    icon_bright.svg/png       Header icon (bright)
-    icon_dark.svg/png         Dark variant
-    icon_pink.svg/png         Main logo (pink)
+  .gitignore              Git ignore rules
+  netlify.toml            Netlify config (publish dir, headers, caching)
+  PROJECT-CONTEXT.md      This file -- project documentation
+  src/                    Published directory (Netlify serves this)
+    index.html            Main landing page (SEO, OG tags, semantic HTML)
+    robots.txt            Search engine crawler rules
+    css/
+      style.css           Styles (design tokens, glass header, animations)
+    js/
+      particles.js        Interactive particle network animation (IIFE)
+    assets/
+      STPro_icon_bg.png         Favicon / OG image
+      STPro_icon_bg_white.png   White variant
+      icon_bright.svg/png       Header icon (bright)
+      icon_dark.svg/png         Dark variant
+      icon_pink.svg/png         Main logo (pink)
 ```
 
 ---
@@ -81,7 +86,7 @@ Auto-deploy is enabled. Every push to `master` triggers a Netlify build.
 
 Manual deploy (if needed):
 ```bash
-npx netlify deploy --dir=. --prod
+npx netlify deploy --dir=src --prod
 ```
 
 ---
