@@ -56,7 +56,7 @@
 
 body {
     background-color: #000;
-    background-image: radial-gradient(#4f4d4d 0.3px, #000 0.3px);
+    background-image: radial-gradient(#4f4d4d 0.5px, #000 0.5px);
     background-size: 6px 6px;
     color: var(--color-text);
     font-family: var(--font-family);
@@ -81,6 +81,7 @@ body {
     height: 100%;
     z-index: 1;
     pointer-events: auto;
+    background: transparent;
 }
 
 
